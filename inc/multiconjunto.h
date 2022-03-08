@@ -1,6 +1,8 @@
 #ifndef _MULTI_CONJ_H
 #define _MULTI_CONJ_H
 
+#define MAX_ELEMENTS 100
+
 template <typename T> class Multiconjunto {
   public:
     // Constructor  
@@ -20,7 +22,7 @@ template <typename T> class Multiconjunto {
     bool pertenece(const T &objeto) const;
   private:
     // Vector de almacenamiento de elementos
-    T c[100];
+    T c[MAX_ELEMENTS];
     // Indica el número de elementos en el multiconjunto
     int num;
 };
