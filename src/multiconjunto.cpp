@@ -46,4 +46,5 @@ bool Multiconjunto<T>::pertenece(const T &objeto) const{
     for(int i = 0; i<MAX_ELEMENTS; i++){
         if(this->c[i] == objeto) return true;
     }
+    return false;
 }
