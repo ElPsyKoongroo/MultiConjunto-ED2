@@ -38,3 +38,12 @@ void Multiconjunto<T>::elimina(const T &objeto){
             this->c[i] = NULL;
     }
 }
+
+template <typename T>
+bool Multiconjunto<T>::pertenece(const T &objeto) const{
+    if (this->num == 0) return false;
+
+    for(int i = 0; i<100; i++){
+        if(this->c[i] == objeto) return true;
+    }
+}
