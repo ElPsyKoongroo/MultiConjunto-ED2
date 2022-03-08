@@ -18,10 +18,10 @@ int Multiconjunto<T>::cardinalidad() const{
 
 template <typename T>
 void Multiconjunto<T>::anade(const T &objeto){
-    if (this->num == 100){
+    if (this->num == MAX_ELEMENTS){
         return ;
     }
-    for(int i = 0; i<100; i++){
+    for(int i = 0; i<MAX_ELEMENTS; i++){
         if(this->c[i] == NULL){
             this->c[i] = objeto;
             return ;
@@ -33,7 +33,7 @@ template <typename T>
 void Multiconjunto<T>::elimina(const T &objeto){
     if (this->num == 0) return ;
 
-    for(int i = 0; i<100; i++){
+    for(int i = 0; i<MAX_ELEMENTS; i++){
         if(this->c[i] == objeto)
             this->c[i] = NULL;
     }
@@ -43,7 +43,7 @@ template <typename T>
 bool Multiconjunto<T>::pertenece(const T &objeto) const{
     if (this->num == 0) return false;
 
-    for(int i = 0; i<100; i++){
+    for(int i = 0; i<MAX_ELEMENTS; i++){
         if(this->c[i] == objeto) return true;
     }
 }
