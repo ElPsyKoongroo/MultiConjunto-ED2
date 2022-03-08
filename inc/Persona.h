@@ -1,3 +1,6 @@
+#ifndef _PERSONA_H
+#define _PERSONA_H
+
 #include<string>
 
 
@@ -13,3 +16,5 @@ public:
     void setEdad(int e); 
     bool operator==(const Persona& p) const; 
 };
+
+ #endif
