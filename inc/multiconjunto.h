@@ -6,7 +6,7 @@
 template <typename T> class Multiconjunto {
   public:
     // Constructor  
-    Multiconjunto();
+    Multiconjunto(int a = 1);
     // Comprueba si el multiconjunto es o no vacío
     bool esVacio() const;
     // Devuelve el número de elementos

@@ -2,8 +2,8 @@
 #include <iostream>
 
 template <typename T>
-Multiconjunto<T>::Multiconjunto(){
-
+Multiconjunto<T>::Multiconjunto(int a){
+    num = 0;
 }
 
 template <typename T>

@@ -1,6 +1,6 @@
 #include "Persona.h"
 
-Persona::Persona(const std::string& n = "", int e = 0) {
+Persona::Persona(const std::string& n, int e) {
     nombre = n;
     edad = e;
 }
