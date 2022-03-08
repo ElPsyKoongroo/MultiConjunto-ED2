@@ -24,6 +24,7 @@ void Multiconjunto<T>::anade(const T &objeto){
     for(int i = 0; i<MAX_ELEMENTS; i++){
         if(this->c[i] == NULL){
             this->c[i] = objeto;
+            this->num++;
             return ;
         }
     }
@@ -34,8 +35,10 @@ void Multiconjunto<T>::elimina(const T &objeto){
     if (this->num == 0) return ;
 
     for(int i = 0; i<MAX_ELEMENTS; i++){
-        if(this->c[i] == objeto)
+        if(this->c[i] == objeto){
             this->c[i] = NULL;
+            this->num--;
+        }
     }
 }
 
