@@ -1,9 +1,11 @@
 #include "../inc/multiconjunto.h"
 #include <iostream>
+#include <cstring>
 
 template <typename T>
-Multiconjunto<T>::Multiconjunto(int a){
+Multiconjunto<T>::Multiconjunto(){
     num = 0;
+    memset(c, -1, sizeof(T)*MAX_ELEMENTS);
 }
 
 template <typename T>
@@ -22,7 +24,7 @@ void Multiconjunto<T>::anade(const T &objeto){
         return ;
     }
     for(int i = 0; i<MAX_ELEMENTS; i++){
-        if(this->c[i] == NULL){
+        if(this->c[i] == -1){
             this->c[i] = objeto;
             this->num++;
             return ;
@@ -36,7 +38,7 @@ void Multiconjunto<T>::elimina(const T &objeto){
 
     for(int i = 0; i<MAX_ELEMENTS; i++){
         if(this->c[i] == objeto){
-            this->c[i] = NULL;
+            this->c[i] = -1;
             this->num--;
         }
     }
