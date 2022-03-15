@@ -1,9 +1,11 @@
 #include "../inc/multiconjunto.h"
 #include <iostream>
+#include <cstring>
 
 template <typename T>
 Multiconjunto<T>::Multiconjunto(){
-
+    num = 0;
+    memset(c, 0, sizeof(T)*MAX_ELEMENTS);
 }
 
 template <typename T>
@@ -18,11 +20,11 @@ int Multiconjunto<T>::cardinalidad() const{
 
 template <typename T>
 void Multiconjunto<T>::anade(const T &objeto){
-    if (this->num == MAX_ELEMENTS){
+    if (this->num == MAX_ELEMENTS || objeto == 0){
         return ;
     }
     for(int i = 0; i<MAX_ELEMENTS; i++){
-        if(this->c[i] == NULL){
+        if(this->c[i] == 0){
             this->c[i] = objeto;
             this->num++;
             return ;
@@ -32,11 +34,11 @@ void Multiconjunto<T>::anade(const T &objeto){
 
 template <typename T>
 void Multiconjunto<T>::elimina(const T &objeto){
-    if (this->num == 0) return ;
+    if (this->num == 0 || objeto == 0) return ;
 
     for(int i = 0; i<MAX_ELEMENTS; i++){
         if(this->c[i] == objeto){
-            this->c[i] = NULL;
+            this->c[i] = 0;
             this->num--;
         }
     }
