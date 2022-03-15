@@ -3,6 +3,11 @@
 #include <iostream>
 #include <cstring>
 
+
+template class Multiconjunto <char>;
+template class Multiconjunto <int>;
+template class Multiconjunto <Persona>;
+
 template <typename T>
 Multiconjunto<T>::Multiconjunto(){
     num = 0;
@@ -19,6 +24,20 @@ int Multiconjunto<T>::cardinalidad() const{
     return this->num;
 }
 
+template <>
+void Multiconjunto<Persona>::anade(const Persona &objeto){
+    if (this->num == MAX_ELEMENTS || objeto == Persona()){
+        return ;
+    }
+    for(int i = 0; i<MAX_ELEMENTS; i++){
+        if(this->c[i] == Persona()){
+            this->c[i] = objeto;
+            this->num++;
+            return ;
+        }
+    }
+}
+
 template <typename T>
 void Multiconjunto<T>::anade(const T &objeto){
     if (this->num == MAX_ELEMENTS || objeto == 0){
@@ -29,6 +48,18 @@ void Multiconjunto<T>::anade(const T &objeto){
             this->c[i] = objeto;
             this->num++;
             return ;
+        }
+    }
+}
+
+template<>
+void Multiconjunto<Persona>::elimina(const Persona &objeto){
+    if (this->num == 0 || objeto == Persona()) return ;
+
+    for(int i = 0; i<MAX_ELEMENTS; i++){
+        if(this->c[i] == objeto){
+            this->c[i] = Persona();
+            this->num--;
         }
     }
 }
@@ -45,6 +76,7 @@ void Multiconjunto<T>::elimina(const T &objeto){
     }
 }
 
+
 template <typename T>
 bool Multiconjunto<T>::pertenece(const T &objeto) const{
     if (this->num == 0) return false;
@@ -54,6 +86,3 @@ bool Multiconjunto<T>::pertenece(const T &objeto) const{
     }
     return false;
 }
-
-template class Multiconjunto <char>;
-template class Multiconjunto <int>;
