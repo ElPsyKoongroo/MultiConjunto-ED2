@@ -16,7 +16,7 @@ bool Multiconjunto<T>::esVacio()const{
 template <typename T>
 int Multiconjunto<T>::cardinalidad() const{
     return this->num;
-};
+}
 
 template <typename T>
 void Multiconjunto<T>::anade(const T &objeto){
