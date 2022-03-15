@@ -1,4 +1,5 @@
 #include "../inc/multiconjunto.h"
+#include "../inc/Persona.h"
 #include <iostream>
 #include <cstring>
 
@@ -53,3 +54,6 @@ bool Multiconjunto<T>::pertenece(const T &objeto) const{
     }
     return false;
 }
+
+template class Multiconjunto <char>;
+template class Multiconjunto <int>;
