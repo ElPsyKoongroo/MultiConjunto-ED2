@@ -5,10 +5,12 @@
 
 int main()
 {
-    /*
     Multiconjunto<int> m1 = Multiconjunto<int>();
     Multiconjunto<char> m2 = Multiconjunto<char>();
 
+    std::cout << "\nPrueba M1, INT\n\n";
+
+#pragma region M1
     for (int i = 1; i < 20; i++)
     {
         std::cout << m1.cardinalidad() << std::endl;
@@ -26,7 +28,33 @@ int main()
     {
         std::cout << "El elemento (" << i << ")" << (m1.pertenece(i)? " ":" no") << "pertenece al conjunto" << std::endl;
     }
-    */
+#pragma endregion
+
+    std::cout << "\n\nPrueba M2, CHAR\n\n";
+
+#pragma region M2
+    for (int i = 1; i < 20; i++)
+    {
+        std::cout << m2.cardinalidad() << std::endl;
+        m2.anade(i);
+    }
+
+    std::cout << m2.cardinalidad() << std::endl;
+
+    for(int i = 0; i < 20; i++)
+    {
+        m2.elimina(i);
+        std::cout << "Quedan: " << m2.cardinalidad() << std::endl;
+    }
+    for(int i = 0; i < m2.cardinalidad(); i+=3)
+    {
+        std::cout << "El elemento (" << i << ")" << (m2.pertenece(i)? " ":" no") << "pertenece al conjunto" << std::endl;
+    }
+#pragma endregion
+
+    std::cout << "\n\nPrueba 3, PERSONA\n\n";
+
+#pragma region M3
     Multiconjunto<Persona> m3 = Multiconjunto<Persona>();
 
     std::string nombres[] = {"Adrian", "Sergio", "Eddie"};
@@ -49,8 +77,8 @@ int main()
 
     std::cout << (m3.pertenece(p2)? "":"no ") << "pertenece al conjunto" << std::endl;
 
+#pragma endregion
 
-    int x;
-    std::cin >> x;
+    system("pause");
     return 0;
 }
