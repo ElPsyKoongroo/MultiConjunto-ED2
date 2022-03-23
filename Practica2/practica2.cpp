@@ -56,10 +56,49 @@ void anchura(const Arbin<T>& a) {
 /****************************** EJERCICIOS *********************************/
 /***************************************************************************/
 //Ejercicio 1
+template <class T>
+int numHojas(const Arbin<T> arbol){
+    if(arbol.esVacio()) {return 0;}
+    return 1 + numHojas(arbol, arbol.subDer(arbol.getRaiz())) + numHojas(arbol, arbol.subIzq(arbol.getRaiz()));
+}
 
+template <class T>
+int numHojas(const Arbin<T> &arbolito, const typename Arbin<T>::Iterador &iterator){
+    try{
+        iterator.observar();
+        return 1 + numHojas(arbolito, arbolito.subDer(iterator)) + numHojas(arbolito, arbolito.subIzq(iterator));
+
+    }
+    catch(const std::exception& e){
+        return 0;
+    }
+}
 
 /****************************************************************************/
 //Ejercicio 2
+/*
+    // COPIA SIMETRICA //
+    Arbin<char> C = simetrico(B);
+    cout << "Recorrido en inorden del arbol B: " << endl;
+    inorden(B, B.getRaiz());
+    cout << endl << "Recorrido en inorden del arbol C: " << endl;
+    inorden(C, C.getRaiz());
+    cout << endl << endl;
+*/
+template <class T>
+Arbin<T> simetrico(const Arbin<T> &arbol){
+    return Arbin<T>(arbol.getRaiz().observar(), simetrico(arbol.subIzq()), simetrico(arbol.subDer()));
+}
+
+template <class T>
+Arbin<T> simetrico(const typename Arbin<T>::Iterador& Iterador){
+    
+    
+    return 
+}
+
+
+
 
 
 /****************************************************************************/
@@ -124,7 +163,7 @@ int main(int argc, char *argv[])
     ABB<int> BB6, BB7;
 
 
- /*
+    
     // NUMERO HOJAS //
     cout << "Num. hojas del arbol B: " << numHojas(B) << endl;
     cout << "Num. hojas del arbol E: " << numHojas(E) << endl << endl;
@@ -137,7 +176,7 @@ int main(int argc, char *argv[])
     inorden(C, C.getRaiz());
     cout << endl << endl;
 
-
+/*
     // RECORRIDO EN ZIG-ZAG //
     cout << "Recorrido en zigzag I de B:\n";
     recorridoZigzag(B, 'I');
