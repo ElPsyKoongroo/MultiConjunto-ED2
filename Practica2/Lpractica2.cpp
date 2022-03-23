@@ -1,8 +1,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <queue>
-#include "includes/arbin.h"
-#include "includes/abb.h"
+#include "Lincludes/arbin.h"
+#include "Lincludes/abb.h"
 
 // Recorridos
 
