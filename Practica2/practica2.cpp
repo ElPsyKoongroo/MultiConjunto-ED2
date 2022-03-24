@@ -214,7 +214,7 @@ int main(int argc, char *argv[])
     recorridoZigzag(B, 'I');
     cout << endl;
     cout << "Recorrido en zigzag D de C:\n";
-    recorridoZigzag(F, 'D');
+    recorridoZigzag(C, 'D');
     cout << endl << endl;
 /*
 
