@@ -76,28 +76,28 @@ int numHojas(const Arbin<T> &arbolito, const typename Arbin<T>::Iterador &iterat
 
 /****************************************************************************/
 //Ejercicio 2
-/*
-    // COPIA SIMETRICA //
-    Arbin<char> C = simetrico(B);
-    cout << "Recorrido en inorden del arbol B: " << endl;
-    inorden(B, B.getRaiz());
-    cout << endl << "Recorrido en inorden del arbol C: " << endl;
-    inorden(C, C.getRaiz());
-    cout << endl << endl;
+
+// Crea una funcion que devuelva el simetrico de un arbol binario
 
 template <class T>
 Arbin<T> simetrico(const Arbin<T> &arbol){
-    return Arbin<T>(arbol.getRaiz().observar(), simetrico(arbol.subIzq()), simetrico(arbol.subDer()));
+    if(arbol.esVacio()) {return arbol;}
+
+    return Arbin<T>(arbol.getRaiz().observar(), simetrico(arbol.subDer()), simetrico(arbol.subIzq()));
 }
 
 template <class T>
 Arbin<T> simetrico(const typename Arbin<T>::Iterador& Iterador){
-    
-    
-    return 
+    try{
+        Iterador.observar();
+        return Arbin<T>(Iterador.observar(), simetrico(Iterador.subDer()), simetrico(Iterador.subIzq()));
+    }
+    catch(const std::exception& e){
+        return Arbin<T>();
+    }
 }
 
-*/
+
 
 
 
@@ -169,12 +169,12 @@ int main(int argc, char *argv[])
     cout << "Num. hojas del arbol E: " << numHojas(E) << endl << endl;
     
     // COPIA SIMETRICA //
-    // Arbin<char> C = simetrico(B);
-    // cout << "Recorrido en inorden del arbol B: " << endl;
-    // inorden(B, B.getRaiz());
-    // cout << endl << "Recorrido en inorden del arbol C: " << endl;
-    // inorden(C, C.getRaiz());
-    // cout << endl << endl;
+    Arbin<char> C = simetrico(B);
+    cout << "Recorrido en inorden del arbol B: " << endl;
+    inorden(B, B.getRaiz());
+    cout << endl << "Recorrido en inorden del arbol C: " << endl;
+    inorden(C, C.getRaiz());
+    cout << endl << endl;
 
 /*
     // RECORRIDO EN ZIG-ZAG //

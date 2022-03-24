@@ -76,28 +76,26 @@ int numHojas(const Arbin<T> &arbolito, const typename Arbin<T>::Iterador &iterat
 
 /****************************************************************************/
 //Ejercicio 2
-/*
-    // COPIA SIMETRICA //
-    Arbin<char> C = simetrico(B);
-    cout << "Recorrido en inorden del arbol B: " << endl;
-    inorden(B, B.getRaiz());
-    cout << endl << "Recorrido en inorden del arbol C: " << endl;
-    inorden(C, C.getRaiz());
-    cout << endl << endl;
 
 template <class T>
-Arbin<T> simetrico(const Arbin<T> &arbol){
-    return Arbin<T>(arbol.getRaiz().observar(), simetrico(arbol.subIzq()), simetrico(arbol.subDer()));
+const Arbin<T> simetrico(const Arbin<T> arbol,const typename Arbin<T>::Iterador &Iterador){
+    try{
+        Iterador.observar();
+        return Arbin<T>(Iterador.observar(), simetrico(arbol, arbol.subDer(Iterador)), simetrico(arbol, arbol.subIzq(Iterador)));
+    }
+    catch(const std::exception& e){
+        return Arbin<T>();
+    }
 }
+
 
 template <class T>
-Arbin<T> simetrico(const typename Arbin<T>::Iterador& Iterador){
-    
-    
-    return 
+Arbin<T> simetrico(Arbin<T> &arbol){
+    if(arbol.esVacio()) {return arbol;}
+    return Arbin<T>(arbol.getRaiz().observar(), simetrico<T>( arbol,arbol.subDer(arbol.getRaiz()) ) , simetrico<T>(arbol, arbol.subIzq( arbol.getRaiz() ) ) );
 }
 
-*/
+
 
 
 
@@ -167,14 +165,16 @@ int main(int argc, char *argv[])
     // NUMERO HOJAS //
     cout << "Num. hojas del arbol B: " << numHojas(B) << endl;
     cout << "Num. hojas del arbol E: " << numHojas(E) << endl << endl;
-    
-    // COPIA SIMETRICA //
-    // Arbin<char> C = simetrico(B);
-    // cout << "Recorrido en inorden del arbol B: " << endl;
-    // inorden(B, B.getRaiz());
-    // cout << endl << "Recorrido en inorden del arbol C: " << endl;
-    // inorden(C, C.getRaiz());
-    // cout << endl << endl;
+
+    cout << "asdadfs" << endl;
+
+    Arbin<char> C = simetrico(B);
+
+    cout << "Recorrido en inorden del arbol B: " << endl;
+    inorden(B, B.getRaiz());
+    cout << endl << "Recorrido en inorden del arbol C: " << endl;
+    inorden(C, C.getRaiz());
+    cout << endl << endl;
 
 /*
     // RECORRIDO EN ZIG-ZAG //

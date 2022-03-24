@@ -1,1 +1,1 @@
-g++ -std=c++11 -ggdb .\practica2.cpp .\sources\*.o -I .\includes\
+g++ -std=c++11 .\practica2.cpp .\sources\*.o -I .\includes\
