@@ -102,6 +102,39 @@ Arbin<T> simetrico(Arbin<T> &arbol){
 /****************************************************************************/
 //Ejercicio 3
 
+template <class T>
+void recorridoZigzag( const typename Arbin<T>::Iterador &Iterador ,const Arbin<T>& a, char sentido ){
+    try{
+        if(sentido == 'D'){
+            cout << Iterador.observar() << " ";
+            recorridoZigzag(a.subDer(Iterador), a, 'I');
+        }
+        else{
+            cout << Iterador.observar() << " ";
+            recorridoZigzag(a.subIzq(Iterador), a,  'D');
+        }
+    }
+    catch(const std::exception& e){
+        return;
+    }
+}
+
+template <class T>
+void recorridoZigzag( const Arbin<T>& a, char sentido ){
+    if(!a.esVacio()){
+        if(sentido == 'D'){
+            cout << a.getRaiz().observar() << " ";
+            recorridoZigzag(a.subDer(a.getRaiz()), a,'I');
+        }
+        else{
+            cout << a.getRaiz().observar() << " ";
+            recorridoZigzag(a.subIzq(a.getRaiz()), a , 'D');
+        }
+    }
+}
+
+
+
 
 /******************************************************************************/
 //Ejercicio 4
@@ -176,14 +209,14 @@ int main(int argc, char *argv[])
     inorden(C, C.getRaiz());
     cout << endl << endl;
 
-/*
     // RECORRIDO EN ZIG-ZAG //
     cout << "Recorrido en zigzag I de B:\n";
     recorridoZigzag(B, 'I');
     cout << endl;
     cout << "Recorrido en zigzag D de C:\n";
-    recorridoZigzag(C, 'D');
+    recorridoZigzag(F, 'D');
     cout << endl << endl;
+/*
 
 
     // COMPENSADO //
