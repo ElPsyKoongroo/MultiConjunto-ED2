@@ -138,11 +138,50 @@ void recorridoZigzag( const Arbin<T>& a, char sentido ){
 
 /******************************************************************************/
 //Ejercicio 4
+template <class T>
+bool compensado(const Arbin<T> &a){
+    if(a.esVacio()){
+        return true;
+    }
+    if (compensado(a, a.subIzq(a.getRaiz())) && compensado(a, a.subDer(a.getRaiz()))){
+        return true;
+    }
+    return false;
+}
 
+template <class T>
+bool compensado(const Arbin<T> &a, const typename Arbin<T>::Iterador &r){
+}
 
 
 /*****************************************************************************/
 //Ejercicio 5
+template <class T>
+void palabras(const Arbin<T> &a){
+    std::string palabra;
+    if(!a.esVacio()){
+        palabra += a.getRaiz().observar();
+        palabras(a, a.subIzq(a.getRaiz()), palabra);
+        palabras(a, a.subDer(a.getRaiz()), palabra);
+    }
+}
+template <class T>
+void palabras(const Arbin<T> &a, const typename Arbin<T>::Iterador &Iterador, std::string palabra){
+    bool empty = true;
+    palabra += Iterador.observar();
+    if(!a.subIzq(Iterador).arbolVacio()){
+        palabras(a, a.subIzq(Iterador), palabra);
+        empty = false;
+    }
+    if(!a.subDer(Iterador).arbolVacio()){
+        palabras(a, a.subDer(Iterador), palabra);
+        empty = false;
+    }
+    if(empty){
+        cout << palabra << " ";
+    }
+
+}
 
 
 /******************************************************************************/
@@ -163,6 +202,7 @@ void recorridoZigzag( const Arbin<T>& a, char sentido ){
 /****************************************************************************/
 int main(int argc, char *argv[])
 {
+    #pragma region Arboles
     Arbin<char> A('t', Arbin<char>('m', Arbin<char>(),
                                         Arbin<char>('f', Arbin<char>(), Arbin<char>())),
                        Arbin<char>('k', Arbin<char>('d', Arbin<char>(), Arbin<char>()),
@@ -193,7 +233,7 @@ int main(int argc, char *argv[])
 
     ABB<int> BB6, BB7;
 
-
+#pragma endregion
     
     // NUMERO HOJAS //
     cout << "Num. hojas del arbol B: " << numHojas(B) << endl;
@@ -216,21 +256,21 @@ int main(int argc, char *argv[])
     cout << "Recorrido en zigzag D de C:\n";
     recorridoZigzag(C, 'D');
     cout << endl << endl;
-/*
 
 
     // COMPENSADO //
-    cout << "Esta A compensado?:";
-    cout << (compensado(A) ? " SI" : " NO") << endl;
-    cout << "Esta B compensado?:";
-    cout << (compensado(B) ? " SI" : " NO") << endl << endl;
+    // cout << "Esta A compensado?:";
+    // cout << (compensado(A) ? " SI" : " NO") << endl;
+    // cout << "Esta B compensado?:";
+    // cout << (compensado(B) ? " SI" : " NO") << endl << endl;
 
     // PALABRAS DE UN ARBOL //
     cout << "PALABRAS DE A:\n";
     palabras(E);
-    cout << "PALABRAS DE B:\n";
+    cout << "\nPALABRAS DE B:\n";
     palabras(B);
     cout << endl;
+/*
 
     // SIGUIENTE MAYOR
     BB6.insertar(8); BB6.insertar(3); BB6.insertar(10); BB6.insertar(1); BB6.insertar(6);
