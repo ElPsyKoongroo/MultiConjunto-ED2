@@ -1,4 +1,4 @@
-FLAGS = -Wall -Werror -std=c++11 -ggdb
+FLAGS = -Wall -Werror -std=c++17 -ggdb
 
 
 app: practica2.cpp
