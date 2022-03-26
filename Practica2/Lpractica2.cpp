@@ -181,6 +181,46 @@ void palabras(const Arbin<T> &a,
 /******************************************************************************/
 // Ejercicio 6
 
+void siguiente(const ABB<int> &a,
+               ABB<int>::Iterador iterador,
+               int x,
+               int &mayor) {
+    iterador.observar();
+    if (x < iterador.observar() && iterador.observar() < mayor) {
+        mayor = iterador.observar();
+    }
+    if (mayor == -1 && x < iterador.observar()) {
+        mayor = iterador.observar();
+    }
+    if (!a.subIzq(iterador).arbolVacio()) {
+        siguiente(a, a.subIzq(iterador), x, mayor);
+    }
+    if (!a.subDer(iterador).arbolVacio()) {
+        siguiente(a, a.subDer(iterador), x, mayor);
+    }
+}
+
+int siguienteMayor(const ABB<int> &a, int x) {
+    if (a.esVacio()) {
+        throw NoHaySiguienteMayor();
+    }
+    int mayor = a.getRaiz().observar() > x ? a.getRaiz().observar() : -1;
+
+    if (a.getRaiz().observar() == x + 1) {
+        return a.getRaiz().observar();
+    }
+
+    if (a.getRaiz().observar() <= x) {
+        siguiente(a, a.subDer(a.getRaiz()), x, mayor);
+    } else {
+        siguiente(a, a.subIzq(a.getRaiz()), x, mayor);
+        siguiente(a, a.subDer(a.getRaiz()), x, mayor);
+    }
+    if (mayor == -1)
+        throw NoHaySiguienteMayor();
+    return mayor;
+}
+
 /******************************************************************************/
 // Ejercicio 7
 
@@ -243,59 +283,72 @@ int main(int argc, char *argv[]) {
     inorden(C, C.getRaiz());
     cout << endl << endl;
 
+    // RECORRIDO EN ZIG-ZAG //
+    cout << "Recorrido en zigzag I de B:\n";
+    recorridoZigzag(B, 'I');
+    cout << endl;
+    cout << "Recorrido en zigzag D de C:\n";
+    recorridoZigzag(C, 'D');
+    cout << endl << endl;
+
     /*
-        // RECORRIDO EN ZIG-ZAG //
-        cout << "Recorrido en zigzag I de B:\n";
-        recorridoZigzag(B, 'I');
-        cout << endl;
-        cout << "Recorrido en zigzag D de C:\n";
-        recorridoZigzag(C, 'D');
-        cout << endl << endl;
-
-
-        // COMPENSADO //
-        cout << "Esta A compensado?:";
-        cout << (compensado(A) ? " SI" : " NO") << endl;
-        cout << "Esta B compensado?:";
-        cout << (compensado(B) ? " SI" : " NO") << endl << endl;
-
-        // PALABRAS DE UN ARBOL //
-        cout << "PALABRAS DE A:\n";
-        palabras(E);
-        cout << "PALABRAS DE B:\n";
-        palabras(B);
-        cout << endl;
-
-        // SIGUIENTE MAYOR
-        BB6.insertar(8); BB6.insertar(3); BB6.insertar(10); BB6.insertar(1);
-       BB6.insertar(6); BB6.insertar(14); BB6.insertar(4); BB6.insertar(7);
-       BB6.insertar(13); try
-        {
-            cout << "Siguiente mayor en BB6 de 5: " << siguienteMayor(BB6, 5) <<
-       endl; cout << "Siguiente mayor en BB6 de 8: " << siguienteMayor(BB6, 8)
-       << endl; cout << "Siguiente mayor en BB6 de 13: " << siguienteMayor(BB6,
-       13) << endl; cout << "Siguiente mayor en BB6 de 14: " <<
-       siguienteMayor(BB6, 14) << endl;
-        }
-        catch(const NoHaySiguienteMayor& e)
-        {
-            cout << e.Mensaje() << endl << endl;
-        }
-
-        // POSICION INORDEN //
-        BB7.insertar(5); BB7.insertar(1); BB7.insertar(3); BB7.insertar(8);
-       BB7.insertar(6); cout << "Posicion Inorden en BB7 de 3: "; cout <<
-       posicionInorden(BB7, 3); cout << endl << "Posicion Inorden en BB7 de 8:
-       "; cout << posicionInorden(BB7, 8); cout << endl << "Posicion Inorden en
-       BB7 de 7: "; cout << posicionInorden(BB7, 7); cout << endl << endl;
-
-        // SUMA CAMINO
-        cout << "Hay un camino de suma 26 en F?:";
-        cout << (haySumaCamino(F, 26) ? " SI" : " NO") << endl;
-        cout << "Hay un camino de suma 9 en F?:";
-        cout << (haySumaCamino(F, 9) ? " SI" : " NO") << endl;
+    // COMPENSADO //
+    cout << "Esta A compensado?:";
+    cout << (compensado(A) ? " SI" : " NO") << endl;
+    cout << "Esta B compensado?:";
+    cout << (compensado(B) ? " SI" : " NO") << endl << endl;
     */
+    // PALABRAS DE UN ARBOL //
+    cout << "PALABRAS DE A:\n";
+    palabras(E);
+    cout << "PALABRAS DE B:\n";
+    palabras(B);
+    cout << endl;
 
+    // SIGUIENTE MAYOR
+    BB6.insertar(8);
+    BB6.insertar(3);
+    BB6.insertar(10);
+    BB6.insertar(1);
+    BB6.insertar(6);
+    BB6.insertar(14);
+    BB6.insertar(4);
+    BB6.insertar(7);
+    BB6.insertar(13);
+    try {
+        cout << "Siguiente mayor en BB6 de 5: " << siguienteMayor(BB6, 5)
+             << endl;
+        cout << "Siguiente mayor en BB6 de 8: " << siguienteMayor(BB6, 8)
+             << endl;
+        cout << "Siguiente mayor en BB6 de 13: " << siguienteMayor(BB6, 13)
+             << endl;
+        cout << "Siguiente mayor en BB6 de 14: " << siguienteMayor(BB6, 14)
+             << endl;
+    } catch (const NoHaySiguienteMayor &e) {
+        cout << e.Mensaje() << endl << endl;
+    }
+    /*
+    // POSICION INORDEN //
+    BB7.insertar(5);
+    BB7.insertar(1);
+    BB7.insertar(3);
+    BB7.insertar(8);
+    BB7.insertar(6);
+    cout << "Posicion Inorden en BB7 de 3: ";
+    cout << posicionInorden(BB7, 3);
+    cout << endl
+         << "Posicion Inorden en BB7 de 8:
+            "; cout << posicionInorden(BB7, 8); cout << endl << " Posicion
+                Inorden en BB7 de 7
+        : "; cout << posicionInorden(BB7, 7); cout << endl << endl;
+
+          // SUMA CAMINO
+          cout
+         << "Hay un camino de suma 26 en F?:";
+    cout << (haySumaCamino(F, 26) ? " SI" : " NO") << endl;
+    cout << "Hay un camino de suma 9 en F?:";
+    cout << (haySumaCamino(F, 9) ? " SI" : " NO") << endl;
+    */
     system("PAUSE");
     return 0;
 }
