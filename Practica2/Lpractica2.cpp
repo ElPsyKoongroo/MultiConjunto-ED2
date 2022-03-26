@@ -139,8 +139,9 @@ template <class T> bool compensado(const Arbin<T> &arbol) {
         return true;
     }
 
-    int diferencia = abs(arbol.subDer(arbol.getRaiz()).altura() - arbol.subIzq(arbol.getRaiz()).altura());
-    if((diferencia)>=2)
+    int diferencia = abs(arbol.subDer(arbol.getRaiz()).altura() -
+                         arbol.subIzq(arbol.getRaiz()).altura());
+    if ((diferencia) >= 2)
         return false;
 
     if (compensado(arbol, arbol.subIzq(arbol.getRaiz())) &&
@@ -150,27 +151,32 @@ template <class T> bool compensado(const Arbin<T> &arbol) {
     return false;
 }
 
-
 template <class T>
-bool compensado(const Arbin<T> &arbol, const typename Arbin<T>::Iterador &iterador) {
+bool compensado(const Arbin<T> &arbol,
+                const typename Arbin<T>::Iterador &iterador) {
 
     int rHigh = 0, lHigh = 0;
 
-    if(iterador.arbolVacio()) return true;
-
-    rHigh = (!arbol.subDer(iterador).arbolVacio()) ? arbol.subDer(iterador).altura() : 0;
-    lHigh = (!arbol.subIzq(iterador).arbolVacio()) ? arbol.subIzq(iterador).altura() : 0;
-    
-    int diferencia = abs(rHigh - lHigh);
-
-    if((diferencia)>=2)
-        return false;
-
-    if(!diferencia)
+    if (iterador.arbolVacio())
         return true;
 
-    return compensado(arbol, arbol.subIzq(iterador)) && compensado(arbol, arbol.subDer(iterador));
-    
+    rHigh = (!arbol.subDer(iterador).arbolVacio())
+                ? arbol.subDer(iterador).altura()
+                : 0;
+    lHigh = (!arbol.subIzq(iterador).arbolVacio())
+                ? arbol.subIzq(iterador).altura()
+                : 0;
+
+    int diferencia = abs(rHigh - lHigh);
+
+    if ((diferencia) >= 2)
+        return false;
+
+    if (!diferencia)
+        return true;
+
+    return compensado(arbol, arbol.subIzq(iterador)) &&
+           compensado(arbol, arbol.subDer(iterador));
 };
 
 /*****************************************************************************/
@@ -316,14 +322,13 @@ int main(int argc, char *argv[]) {
     recorridoZigzag(C, 'D');
     cout << endl << endl;
 
-    
     // COMPENSADO //
     cout << "Esta A compensado?:";
     cout << (compensado(A) ? " SI" : " NO") << endl;
     cout << "Esta B compensado?:";
     cout << (compensado(B) ? " SI" : " NO") << endl << endl;
     // PALABRAS DE UN ARBOL //
-    
+
     cout << "PALABRAS DE A:\n";
     palabras(E);
     cout << "PALABRAS DE B:\n";
