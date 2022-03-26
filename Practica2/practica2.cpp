@@ -187,6 +187,42 @@ void palabras(const Arbin<T> &a, const typename Arbin<T>::Iterador &Iterador, st
 /******************************************************************************/
 //Ejercicio 6
 
+void siguiente(const ABB<int>& a, ABB<int>::Iterador iterador, int x, int &mayor){
+    iterador.observar();
+    if(x < iterador.observar() && iterador.observar() < mayor){
+        mayor = iterador.observar();
+    }
+    if(mayor == -1 && x < iterador.observar()){
+        mayor = iterador.observar();
+    }
+    if(!a.subIzq(iterador).arbolVacio()){
+        siguiente(a, a.subIzq(iterador), x, mayor);
+    }
+    if(!a.subDer(iterador).arbolVacio()){
+        siguiente(a, a.subDer(iterador), x, mayor);
+    }
+}
+
+
+int siguienteMayor(const ABB<int>& a, int x) {
+    int mayor = -1;
+    if (a.esVacio()){
+        return -1;
+    }
+    if (a.getRaiz().observar() == x+1){
+        return a.getRaiz().observar();
+    }
+
+    if (a.getRaiz().observar() <= x){
+        siguiente(a, a.subDer(a.getRaiz()), x, mayor);
+    }
+    else{
+        siguiente(a, a.subIzq(a.getRaiz()), x , mayor);
+        siguiente(a, a.subDer(a.getRaiz()), x , mayor);
+    }
+    return mayor;
+}
+
 
 
 /******************************************************************************/
@@ -270,22 +306,27 @@ int main(int argc, char *argv[])
     cout << "\nPALABRAS DE B:\n";
     palabras(B);
     cout << endl;
-/*
+
 
     // SIGUIENTE MAYOR
     BB6.insertar(8); BB6.insertar(3); BB6.insertar(10); BB6.insertar(1); BB6.insertar(6);
     BB6.insertar(14); BB6.insertar(4); BB6.insertar(7); BB6.insertar(13);
-    try
-    {
-        cout << "Siguiente mayor en BB6 de 5: " << siguienteMayor(BB6, 5) << endl;
-        cout << "Siguiente mayor en BB6 de 8: " << siguienteMayor(BB6, 8) << endl;
-        cout << "Siguiente mayor en BB6 de 13: " << siguienteMayor(BB6, 13) << endl;
-        cout << "Siguiente mayor en BB6 de 14: " << siguienteMayor(BB6, 14) << endl;
-    }
-    catch(const NoHaySiguienteMayor& e)
-    {
-        cout << e.Mensaje() << endl << endl;
-    }
+
+    cout << BB6.buscar(13) << endl;
+
+
+    // try
+    // {
+    cout << "Siguiente mayor en BB6 de 5: " << siguienteMayor(BB6, 5) << endl;
+    cout << "Siguiente mayor en BB6 de 8: " << siguienteMayor(BB6, 8) << endl;
+    cout << "Siguiente mayor en BB6 de 13: " << siguienteMayor(BB6, 13) << endl;
+    cout << "Siguiente mayor en BB6 de 14: " << siguienteMayor(BB6, 14) << endl;
+    // }
+    // catch(const NoHaySiguienteMayor& e)
+    // {
+    //     cout << e.Mensaje() << endl << endl;
+    // }
+/*
 
     // POSICION INORDEN //
     BB7.insertar(5); BB7.insertar(1); BB7.insertar(3); BB7.insertar(8); BB7.insertar(6);
