@@ -233,6 +233,38 @@ int siguienteMayor(const ABB<int>& a, int x) {
 /******************************************************************************/
 //Ejercicio 8
 
+void haySumaCamino(const Arbin<int> &a,
+              const typename Arbin<int>::Iterador &Iterador,
+              int suma_actual, int suma, bool &hay) {
+    bool empty = true;
+    suma_actual += Iterador.observar();
+    if (!a.subIzq(Iterador).arbolVacio()) {
+        haySumaCamino(a, a.subIzq(Iterador), suma_actual, suma, hay);
+        empty = false;
+    }
+    if (!a.subDer(Iterador).arbolVacio()) {
+        haySumaCamino(a, a.subDer(Iterador), suma_actual, suma, hay);
+        empty = false;
+    }
+    if (empty && suma_actual == suma) {
+        hay = true;
+        return;
+    }
+}
+
+
+bool haySumaCamino(const Arbin<int>& a, int suma) {
+    int suma_actual = 0;
+    bool hay = false;
+    if (!a.esVacio()) {
+        suma_actual += a.getRaiz().observar();
+        haySumaCamino(a, a.subIzq(a.getRaiz()), suma_actual, suma, hay);
+        if(!hay){
+            haySumaCamino(a, a.subDer(a.getRaiz()), suma_actual, suma, hay);
+        }
+    }
+    return hay;
+}
 
 
 /****************************************************************************/
@@ -340,12 +372,12 @@ int main(int argc, char *argv[])
     cout << posicionInorden(BB7, 7);
     cout << endl << endl;
 
+*/
     // SUMA CAMINO
     cout << "Hay un camino de suma 26 en F?:";
     cout << (haySumaCamino(F, 26) ? " SI" : " NO") << endl;
     cout << "Hay un camino de suma 9 en F?:";
     cout << (haySumaCamino(F, 9) ? " SI" : " NO") << endl;
-*/
 
     system("PAUSE");
     return 0;
