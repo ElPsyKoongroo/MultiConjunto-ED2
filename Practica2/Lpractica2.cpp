@@ -134,19 +134,44 @@ template <class T> void recorridoZigzag(const Arbin<T> &a, char sentido) {
 
 /******************************************************************************/
 // Ejercicio 4
-template <class T> bool compensado(const Arbin<T> &a) {
-    if (a.esVacio()) {
+template <class T> bool compensado(const Arbin<T> &arbol) {
+    if (arbol.esVacio()) {
         return true;
     }
-    if (compensado(a, a.subIzq(a.getRaiz())) &&
-        compensado(a, a.subDer(a.getRaiz()))) {
+
+    int diferencia = abs(arbol.subDer(arbol.getRaiz()).altura() - arbol.subIzq(arbol.getRaiz()).altura());
+    if((diferencia)>=2)
+        return false;
+
+    if (compensado(arbol, arbol.subIzq(arbol.getRaiz())) &&
+        compensado(arbol, arbol.subDer(arbol.getRaiz()))) {
         return true;
     }
     return false;
 }
 
-// template <class T>
-// bool compensado(const Arbin<T> &a, const typename Arbin<T>::Iterador &r) {}
+
+template <class T>
+bool compensado(const Arbin<T> &arbol, const typename Arbin<T>::Iterador &iterador) {
+
+    int rHigh = 0, lHigh = 0;
+
+    if(iterador.arbolVacio()) return true;
+
+    rHigh = (!arbol.subDer(iterador).arbolVacio()) ? arbol.subDer(iterador).altura() : 0;
+    lHigh = (!arbol.subIzq(iterador).arbolVacio()) ? arbol.subIzq(iterador).altura() : 0;
+    
+    int diferencia = abs(rHigh - lHigh);
+
+    if((diferencia)>=2)
+        return false;
+
+    if(!diferencia)
+        return true;
+
+    return compensado(arbol, arbol.subIzq(iterador)) && compensado(arbol, arbol.subDer(iterador));
+    
+};
 
 /*****************************************************************************/
 // Ejercicio 5
@@ -291,14 +316,14 @@ int main(int argc, char *argv[]) {
     recorridoZigzag(C, 'D');
     cout << endl << endl;
 
-    /*
+    
     // COMPENSADO //
     cout << "Esta A compensado?:";
     cout << (compensado(A) ? " SI" : " NO") << endl;
     cout << "Esta B compensado?:";
     cout << (compensado(B) ? " SI" : " NO") << endl << endl;
-    */
     // PALABRAS DE UN ARBOL //
+    
     cout << "PALABRAS DE A:\n";
     palabras(E);
     cout << "PALABRAS DE B:\n";
