@@ -257,7 +257,36 @@ int siguienteMayor(const ABB<int> &a, int x) {
 
 /******************************************************************************/
 // Ejercicio 8
+bool haySumaCamino(const Arbin<int> &a,
+                   const typename Arbin<int>::Iterador &iterador,
+                   int suma_actual,
+                   int suma) {
+    suma_actual += iterador.observar();
+    int path = (!a.subDer(iterador).arbolVacio()) ? 2: 0 
+              +(!a.subIzq(iterador).arbolVacio()) ? 1: 0;
 
+    if (suma_actual == suma && !path) return true;
+    switch (path) {
+    case 1:                 // Hay por la Izq
+        return haySumaCamino(a, a.subIzq(iterador), suma_actual, suma);
+    case 2:                 // Hay por la Drc
+        return haySumaCamino(a, a.subDer(iterador), suma_actual, suma);
+    case 3:                 // Hay por los dos
+        return haySumaCamino(a, a.subIzq(iterador), suma_actual, suma) ||
+               haySumaCamino(a, a.subDer(iterador), suma_actual, suma);
+    default:
+        return false;
+    }
+}
+
+bool haySumaCamino(const Arbin<int> &a, int suma) {
+    int suma_actual = 0;
+    if (!a.esVacio())
+        suma_actual += a.getRaiz().observar();
+
+    return haySumaCamino(a, a.subIzq(a.getRaiz()), suma_actual, suma) ||
+           haySumaCamino(a, a.subDer(a.getRaiz()), suma_actual, suma);
+}
 
 /****************************************************************************/
 /****************************************************************************/
@@ -372,14 +401,13 @@ int main(int argc, char *argv[]) {
             "; cout << posicionInorden(BB7, 8); cout << endl << " Posicion
                 Inorden en BB7 de 7
         : "; cout << posicionInorden(BB7, 7); cout << endl << endl;
-
-          // SUMA CAMINO
-          cout
-         << "Hay un camino de suma 26 en F?:";
+    */
+    // SUMA CAMINO
+    cout << "Hay un camino de suma 26 en F?:";
     cout << (haySumaCamino(F, 26) ? " SI" : " NO") << endl;
     cout << "Hay un camino de suma 9 en F?:";
     cout << (haySumaCamino(F, 9) ? " SI" : " NO") << endl;
-    */
+
     system("PAUSE");
     return 0;
 }
