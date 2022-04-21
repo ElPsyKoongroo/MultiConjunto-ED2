@@ -79,12 +79,12 @@ int numHojas(const Arbin<T> &arbolito,
 template <class T>
 const Arbin<T> simetrico(const Arbin<T> arbol,
                          const typename Arbin<T>::Iterador &iterador) {
-    if(iterador.esVacio()){
+    if(iterador.arbolVacio()){
         return Arbin<T>();
     }
-    return Arbin<T>(Iterador.observar(),
-        simetrico(arbol, arbol.subDer(Iterador)),
-        simetrico(arbol, arbol.subIzq(Iterador)));
+    return Arbin<T>(iterador.observar(),
+        simetrico(arbol, arbol.subDer(iterador)),
+        simetrico(arbol, arbol.subIzq(iterador)));
 }
 
 template <class T> Arbin<T> simetrico(Arbin<T> &arbol) {
@@ -105,10 +105,10 @@ void recorridoZigzag(const typename Arbin<T>::Iterador &iterador,
                      char sentido) {
     try {
         if (sentido == 'D') {
-            cout << Iterador.observar() << " ";
+            cout << iterador.observar() << " ";
             recorridoZigzag(a.subDer(iterador), a, 'I');
         } else {
-            cout << Iterador.observar() << " ";
+            cout << iterador.observar() << " ";
             recorridoZigzag(a.subIzq(iterador), a, 'D');
         }
     } catch (const std::exception &e) {
