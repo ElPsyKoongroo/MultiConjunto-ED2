@@ -65,14 +65,12 @@ template <class T> int numHojas(const Arbin<T> arbol) {
 template <class T>
 int numHojas(const Arbin<T> &arbolito,
              const typename Arbin<T>::Iterador &iterator) {
-    try {
-        iterator.observar();
-        return 1 + numHojas(arbolito, arbolito.subDer(iterator)) +
-               numHojas(arbolito, arbolito.subIzq(iterator));
 
-    } catch (const std::exception &e) {
+    if (iterator.arbolVacio())
         return 0;
-    }
+
+    return numHojas(arbolito, arbolito.subDer(iterator)) +
+           numHojas(arbolito, arbolito.subIzq(iterator)) + 1;
 }
 
 /****************************************************************************/
@@ -80,15 +78,13 @@ int numHojas(const Arbin<T> &arbolito,
 
 template <class T>
 const Arbin<T> simetrico(const Arbin<T> arbol,
-                         const typename Arbin<T>::Iterador &Iterador) {
-    try {
-        Iterador.observar();
-        return Arbin<T>(Iterador.observar(),
-                        simetrico(arbol, arbol.subDer(Iterador)),
-                        simetrico(arbol, arbol.subIzq(Iterador)));
-    } catch (const std::exception &e) {
+                         const typename Arbin<T>::Iterador &iterador) {
+    if(iterador.esVacio()){
         return Arbin<T>();
     }
+    return Arbin<T>(Iterador.observar(),
+        simetrico(arbol, arbol.subDer(Iterador)),
+        simetrico(arbol, arbol.subIzq(Iterador)));
 }
 
 template <class T> Arbin<T> simetrico(Arbin<T> &arbol) {
@@ -104,16 +100,16 @@ template <class T> Arbin<T> simetrico(Arbin<T> &arbol) {
 // Ejercicio 3
 
 template <class T>
-void recorridoZigzag(const typename Arbin<T>::Iterador &Iterador,
+void recorridoZigzag(const typename Arbin<T>::Iterador &iterador,
                      const Arbin<T> &a,
                      char sentido) {
     try {
         if (sentido == 'D') {
             cout << Iterador.observar() << " ";
-            recorridoZigzag(a.subDer(Iterador), a, 'I');
+            recorridoZigzag(a.subDer(iterador), a, 'I');
         } else {
             cout << Iterador.observar() << " ";
-            recorridoZigzag(a.subIzq(Iterador), a, 'D');
+            recorridoZigzag(a.subIzq(iterador), a, 'D');
         }
     } catch (const std::exception &e) {
         return;
@@ -192,20 +188,19 @@ template <class T> void palabras(const Arbin<T> &a) {
 
 template <class T>
 void palabras(const Arbin<T> &a,
-              const typename Arbin<T>::Iterador &Iterador,
+              const typename Arbin<T>::Iterador &iterador,
               std::string palabra) {
-    bool empty = true;
-    palabra += Iterador.observar();
-    if (!a.subIzq(Iterador).arbolVacio()) {
-        palabras(a, a.subIzq(Iterador), palabra);
-        empty = false;
-    }
-    if (!a.subDer(Iterador).arbolVacio()) {
-        palabras(a, a.subDer(Iterador), palabra);
-        empty = false;
-    }
-    if (empty) {
+    if(iterador.arbolVacio()){
         cout << palabra << " ";
+        return ;
+    }
+    palabra += iterador.observar();
+   
+    bool has_childs = !a.subIzq(iterador).arbolVacio() || !a.subDer(iterador).arbolVacio();
+ 
+    if(has_childs) {
+        palabras(a, a.subIzq(iterador), palabra);
+        palabras(a, a.subDer(iterador), palabra);
     }
 }
 
@@ -259,33 +254,23 @@ int siguienteMayor(const ABB<int> &a, int x) {
 // Ejercicio 8
 bool haySumaCamino(const Arbin<int> &a,
                    const typename Arbin<int>::Iterador &iterador,
-                   int suma_actual,
                    int suma) {
-    suma_actual += iterador.observar();
-    int path = (!a.subDer(iterador).arbolVacio()) ? 2: 0 
-              +(!a.subIzq(iterador).arbolVacio()) ? 1: 0;
 
-    if (suma_actual == suma && !path) return true;
-    switch (path) {
-    case 1:                 // Hay por la Izq
-        return haySumaCamino(a, a.subIzq(iterador), suma_actual, suma);
-    case 2:                 // Hay por la Drc
-        return haySumaCamino(a, a.subDer(iterador), suma_actual, suma);
-    case 3:                 // Hay por los dos
-        return haySumaCamino(a, a.subIzq(iterador), suma_actual, suma) ||
-               haySumaCamino(a, a.subDer(iterador), suma_actual, suma);
-    default:
-        return false;
-    }
+    if(iterador.arbolVacio()) return false;
+
+    suma -= iterador.observar();
+    int has_childs = !a.subDer(iterador).arbolVacio() || !a.subIzq(iterador).arbolVacio();
+
+    if (!suma && !has_childs) return true;
+    return haySumaCamino(a, a.subIzq(iterador), suma) ||
+            haySumaCamino(a, a.subDer(iterador),suma);
 }
 
 bool haySumaCamino(const Arbin<int> &a, int suma) {
-    int suma_actual = 0;
-    if (!a.esVacio())
-        suma_actual += a.getRaiz().observar();
+    if(a.esVacio()) return false;
 
-    return haySumaCamino(a, a.subIzq(a.getRaiz()), suma_actual, suma) ||
-           haySumaCamino(a, a.subDer(a.getRaiz()), suma_actual, suma);
+    return haySumaCamino(a, a.subIzq(a.getRaiz()), suma) ||
+           haySumaCamino(a, a.subDer(a.getRaiz()), suma);
 }
 
 /****************************************************************************/

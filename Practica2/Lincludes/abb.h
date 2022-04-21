@@ -12,8 +12,8 @@ class ABB : public Arbin<T> {
          ABB();
          void insertar(const T& objeto);
          bool buscar(const T& objeto) const;
-         const T& minimo() const throw(ArbolVacioExcepcion);
-         const T& maximo() const throw(ArbolVacioExcepcion);
+         const T& minimo() const;
+         const T& maximo() const;
          void eliminar(const T& objeto); 
          ~ABB();
 };

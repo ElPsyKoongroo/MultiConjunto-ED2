@@ -11,7 +11,7 @@ class Arbin {
         class Iterador {      // clase iterador anidada dentro de la clase arbin
            friend class Arbin<T>;
            public:
-                 const T& observar() const throw(PosicionArbolExcepcion)
+                 const T& observar() const
                  {
                      if (pnodo == NULL) throw PosicionArbolExcepcion();
                      return pnodo->getObj();
@@ -39,8 +39,8 @@ class Arbin {
 			Arbin(const Arbin& a);
 			Arbin& operator=(const Arbin& a);
 			Iterador getRaiz() const;
-			Iterador subIzq(const Iterador& r) const throw(PosicionArbolExcepcion);
-			Iterador subDer(const Iterador& r) const throw(PosicionArbolExcepcion);
+			Iterador subIzq(const Iterador& r) const;
+			Iterador subDer(const Iterador& r) const;
             bool esVacio() const;
 			int altura() const;
 			~Arbin();
