@@ -264,8 +264,10 @@ int posicionInorden(const Arbin<T> &a,
         return *pos;
 
     int left = posicionInorden(a, a.subIzq(iterador), elemento, pos);
+    if (left != 0) return left;
+
     int right= posicionInorden(a, a.subDer(iterador), elemento, pos);
-    return left==0?right:left;
+    return right;
 }
 template <typename T>
 int posicionInorden(const Arbin<T> &a, const T elemento){
