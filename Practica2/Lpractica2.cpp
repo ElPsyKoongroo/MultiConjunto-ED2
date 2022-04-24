@@ -92,8 +92,8 @@ template <class T> Arbin<T> simetrico(Arbin<T> &arbol) {
         return arbol;
     }
     return Arbin<T>(arbol.getRaiz().observar(),
-                    simetrico<T>(arbol, arbol.subDer(arbol.getRaiz())),
-                    simetrico<T>(arbol, arbol.subIzq(arbol.getRaiz())));
+                    simetrico(arbol, arbol.subDer(arbol.getRaiz())),
+                    simetrico(arbol, arbol.subIzq(arbol.getRaiz())));
 }
 
 /****************************************************************************/
@@ -250,6 +250,30 @@ int siguienteMayor(const ABB<int> &a, int x) {
 /******************************************************************************/
 // Ejercicio 7
 
+template <typename T>
+int posicionInorden(const Arbin<T> &a,
+                   const typename Arbin<T>::Iterador &iterador,
+                   const T elemento,
+                   int *pos) {
+
+    if(iterador.arbolVacio())
+        return 0;
+    
+    (*pos)++;
+    if(iterador.observar() == elemento)
+        return *pos;
+
+    int left = posicionInorden(a, a.subIzq(iterador), elemento, pos);
+    int right= posicionInorden(a, a.subDer(iterador), elemento, pos);
+    return left==0?right:left;
+}
+template <typename T>
+int posicionInorden(const Arbin<T> &a, const T elemento){
+    if(a.esVacio()) return 0;
+    int posicion = 0;
+    return posicionInorden(a, a.getRaiz(), elemento, &posicion);
+}
+
 /******************************************************************************/
 // Ejercicio 8
 bool haySumaCamino(const Arbin<int> &a,
@@ -372,7 +396,7 @@ int main(int argc, char *argv[]) {
     } catch (const NoHaySiguienteMayor &e) {
         cout << e.Mensaje() << endl << endl;
     }
-    /*
+    
     // POSICION INORDEN //
     BB7.insertar(5);
     BB7.insertar(1);
@@ -381,12 +405,11 @@ int main(int argc, char *argv[]) {
     BB7.insertar(6);
     cout << "Posicion Inorden en BB7 de 3: ";
     cout << posicionInorden(BB7, 3);
-    cout << endl
-         << "Posicion Inorden en BB7 de 8:
-            "; cout << posicionInorden(BB7, 8); cout << endl << " Posicion
-                Inorden en BB7 de 7
-        : "; cout << posicionInorden(BB7, 7); cout << endl << endl;
-    */
+    cout << endl << "Posicion Inorden en BB7 de 8:"; 
+    cout << posicionInorden(BB7, 8); 
+    cout << endl << "Posicion Inorden en BB7 de 7: "; 
+    cout << posicionInorden(BB7, 7); cout << endl << endl;
+    
     // SUMA CAMINO
     cout << "Hay un camino de suma 26 en F?:";
     cout << (haySumaCamino(F, 26) ? " SI" : " NO") << endl;
