@@ -27,5 +27,5 @@ void Cartelera::listaEspectaculos() {}
 void Cartelera::listaSalas(const string &e) {}
 
 bool Cartelera::existeEspectaculo(const string &espectaculo){
-    return (find(espectaculos.begin(), espectaculos.end(), espectaculo) == espectaculos.end());
+    return espectaculos.find(espectaculo) != espectaculos.end();
 }
