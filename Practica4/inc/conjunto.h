@@ -9,7 +9,7 @@ class Conjunto {
 		Conjunto(int n = 100);
 		bool esVacio() const;
 		int cardinalidad() const;
-		void anadir(const T& objeto) throw (ConjuntoLlenoExcepcion);
+		void anadir(const T& objeto);
 		void eliminar(const T& objeto);
 		const T& quitar();
 		bool pertenece(const T& objeto) const;

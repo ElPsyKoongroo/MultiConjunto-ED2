@@ -9,11 +9,50 @@
 using namespace std;
 
 // Ejercicio 1
-template <typename T> T verticeMaxCoste(const Grafo<T, float> &G) {}
+template <typename T> T verticeMaxCoste(const Grafo<T, float> &G) {
+
+    Conjunto<Vertice<T>> conj_vertice = G.vertices();
+
+    map<T, float> coste_vertice;
+
+    while (!conj_vertice.esVacio()) {
+        T vert = conj_vertice.quitar();
+        coste_vertice[vert] = 0;
+    }
+
+    Conjunto<Arista<T, float>> conj_aristas = G.aristas();
+
+    while (!conj_aristas.esVacio()) {
+        Arista<T, float> arista = conj_aristas.quitar();
+
+        coste_vertice[arista.getOrigen()] += arista.getEtiqueta();
+    }
+
+    float max_coste = 0;
+    T vert_max;
+
+    for(std::pair<T, float> costes: coste_vertice){
+        if(costes.second > max_coste){
+            max_coste = costes.second;
+            vert_max  = costes.first
+        }
+    }
+    return vert_max;
+}
 
 // Ejercicio 2
-template <typename T, typename U> void inaccesibles(const Grafo<T, U> &G) {}
+template <typename T, typename U> void inaccesibles(const Grafo<T, U> &G) {
+    // for(const Arista<T, U> &arista: G.aristas().quitar()){
+    //     accesibles.anadir(Vertice(arista.getDestino()));
+    // }
 
+    // for(const auto vertice: G.vertices()){
+    //     if(!accesibles.pertenece(vertice))
+    //         cout <<
+    // }
+}
+
+/*
 // Ejercicio 3
 template <typename T, typename U>
 bool caminoEntreDos(const Grafo<T, U> &G, const T &vo, const T &vd) {}
@@ -28,7 +67,7 @@ template <typename T, typename U> T outConectado(const Grafo<T, U> &G) {}
 // Ejercicio 6
 template <typename T, typename U>
 void recorrido_profundidad(const Grafo<T, U> &G, const T &v) {}
-
+*/
 //********************************************************************//
 int main() {
     Grafo<int, float> G(7);
@@ -59,10 +98,10 @@ int main() {
     H.insertarArista("Aljaraque", "Mazagon", 5);
     H.insertarArista("Almonte", "Huelva", 6);
 
-    /*
+    
         cout << " Vertice de maximo coste en G: " << verticeMaxCoste(G) << endl;
         cout << " Vertice de maximo coste en H: " << verticeMaxCoste(H) << endl;
-
+    /*
         cout << endl << " Vertices inaccesibles en G: ";
         inaccesibles(G);
 

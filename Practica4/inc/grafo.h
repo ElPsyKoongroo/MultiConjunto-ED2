@@ -23,8 +23,8 @@ class Grafo {
         const ConjAristas& aristas() const;
         const ConjVertices& adyacentes(const T& v) const;
         const ConjVertices& antecesores(const T& v) const;
-        void insertarVertice(const T& v) throw (GrafoLlenoExcepcion);
-        void insertarArista(const T& v1, const T& v2, const U& e = U()) throw (NoExisteVerticeExcepcion);
+        void insertarVertice(const T& v);
+        void insertarArista(const T& v1, const T& v2, const U& e = U());
         void eliminarVertice(const T& v);
         void eliminarArista(const T& v1, const T& v2);
 		~Grafo();
