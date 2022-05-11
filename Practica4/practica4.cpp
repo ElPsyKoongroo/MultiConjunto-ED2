@@ -6,21 +6,19 @@
 #include <queue>
 #include <sstream>
 
-using namespace std;
-
 // Ejercicio 1
 template <typename T> T verticeMaxCoste(const Grafo<T, float> &G) {
 
-    Conjunto<Vertice<T>> conj_vertice = G.vertices();
+    Conjunto<Vertice<T> > conj_vertice = G.vertices();
 
     map<T, float> coste_vertice;
 
     while (!conj_vertice.esVacio()) {
-        T vert = conj_vertice.quitar();
+        T vert = conj_vertice.quitar().getObj();
         coste_vertice[vert] = 0;
     }
 
-    Conjunto<Arista<T, float>> conj_aristas = G.aristas();
+    Conjunto<Arista<T, float> > conj_aristas = G.aristas();
 
     while (!conj_aristas.esVacio()) {
         Arista<T, float> arista = conj_aristas.quitar();
@@ -31,10 +29,10 @@ template <typename T> T verticeMaxCoste(const Grafo<T, float> &G) {
     float max_coste = 0;
     T vert_max;
 
-    for(std::pair<T, float> costes: coste_vertice){
-        if(costes.second > max_coste){
+    for (std::pair<T, float> costes : coste_vertice) {
+        if (costes.second > max_coste) {
             max_coste = costes.second;
-            vert_max  = costes.first
+            vert_max = costes.first;
         }
     }
     return vert_max;
@@ -42,21 +40,59 @@ template <typename T> T verticeMaxCoste(const Grafo<T, float> &G) {
 
 // Ejercicio 2
 template <typename T, typename U> void inaccesibles(const Grafo<T, U> &G) {
-    // for(const Arista<T, U> &arista: G.aristas().quitar()){
-    //     accesibles.anadir(Vertice(arista.getDestino()));
-    // }
+    Conjunto<Vertice<T> > conj_vertice = G.vertices();
 
-    // for(const auto vertice: G.vertices()){
-    //     if(!accesibles.pertenece(vertice))
-    //         cout <<
-    // }
+    map<T, int> vertices_refe;
+
+    while (!conj_vertice.esVacio()) {
+        T vert = conj_vertice.quitar().getObj();
+        vertices_refe[vert] = 0;
+    }
+
+    Conjunto<Arista<T, U> > conj_aristas = G.aristas();
+    
+    while (!conj_aristas.esVacio()) {
+        Arista<T, U> arista = conj_aristas.quitar();
+        vertices_refe[arista.getDestino()]++;
+    }
+
+    for(std::pair<T, int> par: vertices_refe){
+        if(par.second == 0)
+            std::cout << par.first << ", ";
+    }
+    std::cout << "\n";
+}
+
+
+// Ejercicio 3
+
+template <typename T, typename U>
+bool caminoEntreDos(const Grafo<T, U> &G,
+                    const T &vertice_origen,
+                    const T &vertice_destino,
+                    Conjunto<T> visitados) {
+
+    Conjunto<Vertice<T> > adyacentes = G.adyacentes(vertice_origen);
+    bool caminito = false;
+    while(!adyacentes.esVacio()){
+        T vert = adyacentes.quitar().getObj();
+        if(!visitados.pertenece(vert)){
+            visitados.anadir(vert);
+            std::cout << vert << "\n";
+            if(vert == vertice_destino) return true;
+            caminito = caminoEntreDos(G, vert , vertice_destino, visitados);
+        }
+    }
+    return caminito;
+
+}
+
+template <typename T, typename U>
+bool caminoEntreDos(const Grafo<T, U> &G, const T &vertice_origen, const T &vertice_destino) {
+    return caminoEntreDos(G, vertice_origen, vertice_destino, Conjunto<T>());
 }
 
 /*
-// Ejercicio 3
-template <typename T, typename U>
-bool caminoEntreDos(const Grafo<T, U> &G, const T &vo, const T &vd) {}
-
 // Ejercicio 4
 template <typename T>
 void caminosAcotados(const Grafo<T, float> &G, const T &u, float maxCoste) {}
@@ -98,31 +134,33 @@ int main() {
     H.insertarArista("Aljaraque", "Mazagon", 5);
     H.insertarArista("Almonte", "Huelva", 6);
 
+    H.insertarArista("Almonte", "Lepe", 4);
+
     
-        cout << " Vertice de maximo coste en G: " << verticeMaxCoste(G) << endl;
-        cout << " Vertice de maximo coste en H: " << verticeMaxCoste(H) << endl;
-    /*
-        cout << endl << " Vertices inaccesibles en G: ";
-        inaccesibles(G);
+    std::cout << " Vertice de maximo coste en G: " << verticeMaxCoste(G) << endl;
+    std::cout << " Vertice de maximo coste en H: " << verticeMaxCoste(H) << endl;
 
-        cout << endl << " Camino entre Dos en H de Lepe a Almonte: ";
-        cout << (caminoEntreDos(H, string("Lepe"), string("Almonte")) ? " SI " :
-       " NO ") << endl; cout << endl << " Camino entre Dos en H de Aljaraque a
-       Lepe: "; cout << (caminoEntreDos(H, string("Aljaraque"), string("Lepe"))
-       ? " SI " : " NO ") << endl;
+    std::cout << endl << " Vertices inaccesibles en G: ";
+    inaccesibles(G);
+    
+    std::cout << endl << " Camino entre Dos en H de Lepe a Almonte: ";
+    std::cout << (caminoEntreDos(H, string("Lepe"), string("Almonte")) ? "SI" : " NO ") << endl; 
+    std::cout << endl << " Camino entre Dos en H de Aljaraque a Lepe: "; 
+    std::cout << (caminoEntreDos(H, string("Aljaraque"),string("Lepe")) ? " SI " : " NO ") << endl;
+        /*
+            std::cout << endl << " Caminos acotados en G a coste 9 desde el vertice
+           2:"
+           << endl; caminosAcotados(G, 2, 9);
 
-        cout << endl << " Caminos acotados en G a coste 9 desde el vertice 2:"
-       << endl; caminosAcotados(G, 2, 9);
+            std::cout << endl << endl << " Vertice outConectado en G: " <<
+           outConectado(G); std::cout << endl << " Vertice outConectado en H: " <<
+           outConectado(H);
 
-        cout << endl << endl << " Vertice outConectado en G: " <<
-       outConectado(G); cout << endl << " Vertice outConectado en H: " <<
-       outConectado(H);
+            std::cout << endl << endl << " Recorrido en profundidad de H desde el
+           vertice Huelva:  "; recorrido_profundidad(H, string("Huelva")); std::cout
+           << endl << endl;
+        */
 
-        cout << endl << endl << " Recorrido en profundidad de H desde el vertice
-       Huelva:  "; recorrido_profundidad(H, string("Huelva")); cout << endl <<
-       endl;
-    */
-
-    system("PAUSE");
-    return EXIT_SUCCESS;
+        system("PAUSE");
+        return EXIT_SUCCESS;
 }
