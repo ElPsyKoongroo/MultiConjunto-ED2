@@ -105,6 +105,15 @@ bool existeArista(const std::map<T, float> &verticesCostes, const Arista<T, floa
 }
 
 template <typename T>
+void printeaBonito(const T vertice, const int nivel, const T siguiente){
+    std::cout << "\r";
+    for (int _ = 0; _ < nivel; ++_) {
+        std::cout << "\t";
+    }
+    std::cout << vertice << " --> " << siguiente << "\n";
+}
+
+template <typename T>
 void caminosAcotados(const Grafo<T, float> &G,
                      const T &vertice,
                      float costeActual,
@@ -129,11 +138,7 @@ void caminosAcotados(const Grafo<T, float> &G,
     
     for (std::pair<T, float> verticeYCoste : verticesCostes) {
         if ((costeActual + verticeYCoste.second) <= maxCoste) {
-            std::cout << "\r";
-            for (int _ = 0; _ < nivel; ++_) {
-                std::cout << "\t";
-            }
-            std::cout << vertice << " --> " << verticeYCoste.first << "\n";
+            printeaBonito(vertice, nivel, verticeYCoste.first);
             caminosAcotados(G, verticeYCoste.first,
                             costeActual + verticeYCoste.second, maxCoste,
                             nivel + 1);
@@ -145,14 +150,67 @@ template <typename T>
 void caminosAcotados(const Grafo<T, float> &G, const T &vertice, float maxCoste) {
     caminosAcotados(G, vertice, 0, maxCoste, 0);
 }
-/*
+
 // Ejercicio 5
-template <typename T, typename U> T outConectado(const Grafo<T, U> &G) {}
+template <typename T, typename U> T outConectado(const Grafo<T, U> &G) {
+
+    struct conexiones {
+        int in;
+        int out;
+    };
+
+    Conjunto<Vertice<T> > vertices = G.vertices();
+    std::map<T, struct conexiones> verticesYConexiones;
+
+    while (!vertices.esVacio()) {
+        Vertice<T> tempVertice = vertices.quitar();
+        verticesYConexiones[tempVertice.getObj()] = conexiones{0, 0};
+    }
+
+    Conjunto<Arista<T, U> > aristas = G.aristas();
+
+    while (!aristas.esVacio()) {
+        Arista<T, U> tempArista = aristas.quitar();
+        verticesYConexiones[tempArista.getDestino()].in += 1;
+        verticesYConexiones[tempArista.getOrigen()].out += 1;
+    }
+    for (std::pair<T, conexiones> vertice : verticesYConexiones) {
+        if(vertice.second.out > vertice.second.in) return vertice.first;
+    }
+
+    // Para que no me saque warnings el compilador.
+    return T();
+}
+
 
 // Ejercicio 6
 template <typename T, typename U>
-void recorrido_profundidad(const Grafo<T, U> &G, const T &v) {}
-*/
+void recorrido_profundidad(const Grafo<T, U> &G, const T &vertice, Conjunto<T> visitados) {
+
+    Conjunto<Vertice<T> > adyacentes = G.adyacentes(vertice);
+    Conjunto<Vertice<T> > meHariaFaltaUnaCola;
+    while (!adyacentes.esVacio()){
+        Vertice<T> verticito = adyacentes.quitar();
+        if(!visitados.pertenece(verticito.getObj())){
+            visitados.anadir(verticito.getObj());
+            meHariaFaltaUnaCola.anadir(verticito);
+        }
+    }
+    while(!meHariaFaltaUnaCola.esVacio()){
+        Vertice<T> verticitoTemporal = meHariaFaltaUnaCola.quitar();
+        recorrido_profundidad(G, verticitoTemporal.getObj(), visitados);
+        
+    }
+    std::cout << vertice << ", ";
+}
+
+template <typename T, typename U>
+void recorrido_profundidad(const Grafo<T, U> &G, const T &vertice) {
+    Conjunto<T> visitados;
+    visitados.anadir(vertice);
+    recorrido_profundidad(G, vertice, visitados);
+}
+
 //********************************************************************//
 int main() {
     Grafo<int, float> G(7);
@@ -201,15 +259,17 @@ int main() {
               << " Caminos acotados en G a coste 9 desde el vertice2 : "
               << endl;
     caminosAcotados(G, 2, 9);
-    /*
-    std::cout << endl << endl << " Vertice outConectado en G: " <<
-   outConectado(G); std::cout << endl << " Vertice outConectado en H: " <<
-   outConectado(H);
 
-    std::cout << endl << endl << " Recorrido en profundidad de H desde el
-   vertice Huelva:  "; recorrido_profundidad(H, string("Huelva")); std::cout
-   << endl << endl;
-*/
+    std::cout << endl
+              << endl
+              << " Vertice outConectado en G: " << outConectado(G);
+    std::cout << endl << " Vertice outConectado en H: " << outConectado(H);
+
+    std::cout << endl
+              << endl
+              << " Recorrido en profundidad de H desde el vertice Huelva : ";
+    recorrido_profundidad(H, string("Huelva"));
+    std::cout << endl << endl;
 
     // system("PAUSE"); muy bonito pero en linux no funciona
     return EXIT_SUCCESS;
