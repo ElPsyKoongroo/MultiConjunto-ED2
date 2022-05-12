@@ -66,32 +66,32 @@ template <typename T, typename U> void inaccesibles(const Grafo<T, U> &G) {
 
 // Ejercicio 3
 template <typename T>
-void funsionsita(Conjunto<Vertice<T> > adyacentes, std::queue<T>& cola_innecesaria, Conjunto<T>& visitados){
+void funsionsita(Conjunto<Vertice<T> > adyacentes, std::queue<T>& colaInnecesaria, Conjunto<T>& visitados){
     T a;
     while(!adyacentes.esVacio()){
         a = adyacentes.quitar().getObj();
         if(!visitados.pertenece(a)){
             visitados.anadir(a);
-            cola_innecesaria.push(a);
+            colaInnecesaria.push(a);
         }
     }
 }
 
 template <typename T, typename U>
-bool caminoEntreDos(const Grafo<T, U> &G, const T &vertice_origen, const T &vertice_destino) {
-    Conjunto<Vertice<T> > adyacentes = G.adyacentes(vertice_origen);
+bool caminoEntreDos(const Grafo<T, U> &G, const T &verticeOrigen, const T &verticeDestino) {
+    Conjunto<Vertice<T> > adyacentes = G.adyacentes(verticeOrigen);
     Conjunto<T> visitados;
-    std::queue<T> cola_innecesaria;
+    std::queue<T> colaInnecesaria;
     T a = adyacentes.quitar().getObj();
-    cola_innecesaria.push(a);
-    funsionsita(adyacentes, cola_innecesaria, visitados);
+    colaInnecesaria.push(a);
+    funsionsita(adyacentes, colaInnecesaria, visitados);
     
-    while(!cola_innecesaria.empty()){
-        a = cola_innecesaria.front();
-        cola_innecesaria.pop();
-        if(a == vertice_destino) return true;
+    while(!colaInnecesaria.empty()){
+        a = colaInnecesaria.front();
+        colaInnecesaria.pop();
+        if(a == verticeDestino) return true;
         adyacentes = G.adyacentes(a);
-        funsionsita(adyacentes, cola_innecesaria, visitados);
+        funsionsita(adyacentes, colaInnecesaria, visitados);
     }
     return false;
 }
