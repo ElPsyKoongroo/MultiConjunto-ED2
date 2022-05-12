@@ -9,33 +9,33 @@
 // Ejercicio 1
 template <typename T> T verticeMaxCoste(const Grafo<T, float> &G) {
 
-    Conjunto<Vertice<T> > conj_vertice = G.vertices();
+    Conjunto<Vertice<T> > conjVertice = G.vertices();
 
-    map<T, float> coste_vertice;
+    map<T, float> costeVertice;
 
-    while (!conj_vertice.esVacio()) {
-        T vert = conj_vertice.quitar().getObj();
-        coste_vertice[vert] = 0;
+    while (!conjVertice.esVacio()) {
+        T vert = conjVertice.quitar().getObj();
+        costeVertice[vert] = 0;
     }
 
-    Conjunto<Arista<T, float> > conj_aristas = G.aristas();
+    Conjunto<Arista<T, float> > conjAristas = G.aristas();
 
-    while (!conj_aristas.esVacio()) {
-        Arista<T, float> arista = conj_aristas.quitar();
+    while (!conjAristas.esVacio()) {
+        Arista<T, float> arista = conjAristas.quitar();
 
-        coste_vertice[arista.getOrigen()] += arista.getEtiqueta();
+        costeVertice[arista.getOrigen()] += arista.getEtiqueta();
     }
 
-    float max_coste = 0;
-    T vert_max;
+    float maxCoste = 0;
+    T vertMax;
 
-    for (std::pair<T, float> costes : coste_vertice) {
-        if (costes.second > max_coste) {
-            max_coste = costes.second;
-            vert_max = costes.first;
+    for (std::pair<T, float> costes : costeVertice) {
+        if (costes.second > maxCoste) {
+            maxCoste = costes.second;
+            vertMax = costes.first;
         }
     }
-    return vert_max;
+    return vertMax;
 }
 
 // Ejercicio 2
