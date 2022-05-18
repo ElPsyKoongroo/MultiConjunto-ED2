@@ -1,1 +1,0 @@
-g++ -Wall -Wextra -ggdb ./practica4.cpp ./Wsrc/*.o -I ./inc -o main.exe
