@@ -10,5 +10,11 @@ class ArbolVacioExcepcion: public Excepcion {
      ArbolVacioExcepcion(): Excepcion("Arbol vacio") {};
 };
 
+
+class NoHaySiguienteMayor : public Excepcion {
+  public:
+     NoHaySiguienteMayor(): Excepcion("No hay siguiente mayor") {};
+};
+
 #endif
 
